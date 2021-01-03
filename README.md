@@ -52,12 +52,12 @@ Slack factor gives the allowed slack as a ratio. Slack amount specifies the allo
 
 Here any training runs whose best metric defined at the interval is less than "best_metric/(1+slack_factor)" will be terminated. Bandit policy filters out all runs, with sub-optimal performance.
 
-After running the SkLearn pipeline, the best performing hyperparameters were --C as 6.429755013675407 and max_iter as 250, with an accuracy of 0.9133535660091047.
+After running the SkLearn pipeline, the best performing hyperparameters are --C as 6.429755013675407 and max_iter as 250, with an accuracy of 0.9133535660091047.
 
 
 ![image](https://user-images.githubusercontent.com/59551550/103478556-91954980-4ded-11eb-8321-6a08749ebd74.png)
 
-The HyperParameters chosen were 
+The HyperParameters chosen are 
 ![image](https://user-images.githubusercontent.com/59551550/103473508-6431a700-4dbf-11eb-83ba-8f4b4c821250.png)
 
 
@@ -66,18 +66,39 @@ The HyperParameters chosen were
 
 For training, Azure ML creates multiple pipelines in parallel which try on different algorithms and parameters. It iterates through ML algorithms paired with feature selections, and each iteration produces a model with a training score. The higher the score, the better the fitting the model is. The process will stop once the exit criteria defined is hit.
 
-After running the AutoML pipeline, the best performing model was found to be VotingEnsemble with an Accuracy value of 0.9171167420803277.
+After running the AutoML pipeline, the best performing model is found to be VotingEnsemble with an Accuracy value of 0.9171167420803277.
 VotingEnsemble combines conceptually different machine learning classifiers and uses a majority vote or the average predicted probabilities (soft vote) to predict the class labels. This is method balances out the individual weaknesses of the considered classifiers.
 
 **Voting Classifier**
 
-The AutoML Voting Classifier is made up of a combination of xgboostclassifier models and lightgbmclassifier with different hyperparameter values and normalization/scaling techinques. There are 7 estimators used with weights as 0.13333333333333333, 0.2, 0.13333333333333333, 0.06666666666666667, 0.2, 0.13333333333333333, 0.13333333333333333 respectively.
+The AutoML Voting Classifier is made up of a combination of xgboostclassifier models and lightgbmclassifier with different hyperparameter values and normalization/scaling techinques. There are 7 estimators used in the run with weights equal to 0.13333333333333333, 0.2, 0.13333333333333333, 0.06666666666666667, 0.2, 0.13333333333333333, 0.13333333333333333 respectively.
 
-Considering the lightgbmclassifier with one of the most weights (20%), the hyperparameters generated of which are: 
-{'boosting_type': 'gbdt', 'class_weight': None, 'colsample_bytree': 1.0, 'importance_type': 'split', 'learning_rate': 0.1, 'max_depth': -1, 'min_child_samples': 20, 'min_child_weight': 0.001, 'min_split_gain': 0.0, 'n_estimators': 100, 'n_jobs': 1, 'num_leaves': 31, 'objective': None, 'random_state': None, 'reg_alpha': 0.0, 'reg_lambda': 0.0, 'silent': True, 'subsample': 1.0, 'subsample_for_bin': 200000, 'subsample_freq': 0, 'verbose': -10}
+Considering the lightgbmclassifier, it is the model with one of the highest weights (20%) of the ensemble, 
+The hyperparameters generated for the model are: 
+'boosting_type': 'gbdt'
+'class_weight': None
+'colsample_bytree': 1.0
+'importance_type': 'split'
+'learning_rate': 0.1
+'max_depth': -1
+'min_child_samples': 20
+'min_child_weight': 0.001
+'min_split_gain': 0.0
+'n_estimators': 100
+'n_jobs': 1
+'num_leaves': 31
+'objective': None
+'random_state': None
+'reg_alpha': 0.0
+'reg_lambda': 0.0
+'silent': True
+'subsample': 1.0
+'subsample_for_bin': 200000
+'subsample_freq': 0
+'verbose': -10
 
 
-The results of the run were as follows
+The results of the run are as follows
 ![image](https://user-images.githubusercontent.com/59551550/103473514-6b58b500-4dbf-11eb-915d-eaeebe37e5cd.png)
 
 Confusion Matrix of AutoML output
@@ -85,7 +106,7 @@ Confusion Matrix of AutoML output
 
 
 ## Pipeline comparison
-The sklearn model optimized using HpyerDrive and the AutoML models were both run on the same data.
+The sklearn model optimized using HpyerDrive and the AutoML models are both run on the same data.
 
 **Model Accuracy**
 HyperDrive provided an accuracy of 0.9133535660091047 while the AutoML gave a better accuracy of 0.9171167420803277.
