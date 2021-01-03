@@ -9,7 +9,7 @@ This model is then compared to an Azure AutoML run.
 **Problem Statement and Data**
 
 The data is related to the direct marketing campaigns of a Portuguese banking institution. The marketing campaigns were based on phone calls. Often, more than one contact to the same client was required, in order to access if the product (bank term deposit) would be ('yes') or not ('no') subscribed.
-i.e. The classification goal is to predict if the client will subscribe (yes/no) a term deposit (variable y).
+i.e. The classification goal is to predict if the client will subscribe (yes/no) to a term deposit (variable y).
 
 **Workflow**
 
@@ -52,10 +52,10 @@ Slack factor gives the allowed slack as a ratio. Slack amount specifies the allo
 
 Here any training runs whose best metric defined at the interval is less than "best_metric/(1+slack_factor)" will be terminated. Bandit policy filters out all runs, with sub-optimal performance.
 
-After running the SkLearn pipeline, the best performing hyperparameters were --C as 6.429755013675407 and max_iter as 250, with the accuracy of 0.9133535660091047.
+After running the SkLearn pipeline, the best performing hyperparameters were --C as 6.429755013675407 and max_iter as 250, with an accuracy of 0.9133535660091047.
 
 
-![image](https://user-images.githubusercontent.com/59551550/103473503-5aa83f00-4dbf-11eb-9cfa-ca9040f832be.png)
+![image](https://user-images.githubusercontent.com/59551550/103478556-91954980-4ded-11eb-8321-6a08749ebd74.png)
 
 The HyperParameters chosen were 
 ![image](https://user-images.githubusercontent.com/59551550/103473508-6431a700-4dbf-11eb-83ba-8f4b4c821250.png)
@@ -67,7 +67,7 @@ The HyperParameters chosen were
 For training, Azure ML creates multiple pipelines in parallel which try on different algorithms and parameters. It iterates through ML algorithms paired with feature selections, and each iteration produces a model with a training score. The higher the score, the better the fitting the model is. The process will stop once the exit criteria defined is hit.
 
 After running the AutoML pipeline, the best performing model was found to be VotingEnsemble with an Accuracy value of 0.9171167420803277.
-VotingEnsemble combines conceptually different machine learning classifiers and use a majority vote or the average predicted probabilities (soft vote) to predict the class labels. This is method balances out the individual weaknesses of the considered classifiers.
+VotingEnsemble combines conceptually different machine learning classifiers and uses a majority vote or the average predicted probabilities (soft vote) to predict the class labels. This is method balances out the individual weaknesses of the considered classifiers.
 
 **Voting Classifier**
 
@@ -102,10 +102,16 @@ HyperDrive does not provide in-built featurization, feature engineering for the 
 ## Future work
 Future work on the experiment can include
 
-**Sampling the hyperparameter space** Different parameter sampling methods to use over the hyperparameter space could be implemented i.e. Grid sampling, Bayesian sampling.
+**Model selection** Select different ML algorithms to apply hyperdrive upon. This could lead to more precise models.
 
-**Early termination policy** Other than Bandit policy Azure Machine Learning supports the following early termination policies Median stopping policy, Truncation selection policy. Different Early termination policies could be applied to verify if it yields better results. 
+**Sampling the hyperparameter space** Other parameter sampling methods to use over the hyperparameter space could be implemented i.e. Grid sampling, Bayesian sampling.
 
-**Resource allocation** Different resource allocation in terms of max_total_runs, max_duration_minutes  or max_concurrent_runs for HyperDrive configuration can be attempted.
+**Early termination policy** Azure Machine Learning supports the following early termination policies other than Bandit policy: Median stopping policy, Truncation selection policy. Different Early termination policies could be applied to keep the run most time/cost-efficient, yet having the best results. 
 
-**Cross-Validation** Change the number of cross-validation folds to reduce bias.
+**Resource allocation** Different resource allocation in terms of max_total_runs, max_duration_minutes  or max_concurrent_runs for HyperDrive configuration , and different  experiment_timeout_minutes for AutoML can be attemoted.
+
+**Cross-Validation** Change the number of cross-validation folds in the AutoML run.
+
+**Primary metric** For the given data, the dataset is pretty imbalanced in terms of classes. A primary metric other than accuracy would be more apt for the given scenario i.e. AUC, Precision, Recall.
+
+
